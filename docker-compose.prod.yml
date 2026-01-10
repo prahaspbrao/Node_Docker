@@ -1,0 +1,11 @@
+services:
+  node-app:
+    build:
+      context: .
+      args:
+        NODE_ENV: production
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    command: node index.js
