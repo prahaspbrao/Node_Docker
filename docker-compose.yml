@@ -4,3 +4,9 @@ services:
       context: .
     ports:
       - "3000:3000"
+  
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: prahas
+      MONGO_INITDB_ROOT_PASSWORD: mypassword
