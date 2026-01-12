@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import config from "./config/config.js";
+import postRouter from "./routes/postRoutes.js"
 
 const { MONGO_USER, MONGO_IP, MONGO_PORT, MONGO_PASSWORD } = config;
 
@@ -22,6 +23,8 @@ const connectWithRetry = () => {
 app.get("/", (req, res) => {
   return res.send("<h2>Hello World !!!</h2>");
 });
+
+app.use("/api/v1" , postRouter);
 
 app.listen(port, () => {
   console.log(`Listening to the port : ${port}`);
