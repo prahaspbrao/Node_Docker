@@ -91,3 +91,55 @@ export const createPost = async (req, res, next) => {
   }
 };
 
+export const updatePost = async (req, res, next) => {
+  try {
+    const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!post) {
+      return res.status(400).json({
+        status: "Fail",
+        message: "Creditentials not found",
+      });
+    }
+
+    return res.status(200).json({
+      status: "Success",
+      message: "Post Updated successfully",
+      data: post,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      status: "Failed",
+      message: "Something went wrong!!",
+    });
+  }
+};
+
+export const deletePost = async (req , res , next) =>{
+    try {
+    const post = await Post.findByIdAndDelete(req.params.id);
+
+    if (!post) {
+      return res.status(400).json({
+        status: "Fail",
+        message: "Creditentials not found",
+      });
+    }
+
+    return res.status(200).json({
+      status: "Success",
+      message: "Post deleted successfully",
+      data: null,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      status: "Failed",
+      message: "Something went wrong!!",
+    });
+  }
+}
