@@ -36,7 +36,7 @@ export const getOnePosts = async (req, res, next) => {
   }
 
   try {
-    const post = await Post.findOne({ title: title });
+    const post = await Post.findById(req.params.id);
 
     if (!post) {
       return res.status(400).json({
@@ -47,7 +47,7 @@ export const getOnePosts = async (req, res, next) => {
     return res.status(200).json({
       status: "Success",
       results: post.length,
-      data: post
+      data: post,
     });
   } catch (error) {
     console.log(error);
@@ -56,3 +56,38 @@ export const getOnePosts = async (req, res, next) => {
     });
   }
 };
+
+export const createPost = async (req, res, next) => {
+  const { title, body } = req.body;
+
+  if (!title || !body) {
+    return res.status(400).json({
+      status: "Failed",
+      message: "Failed to get title or body",
+    });
+  }
+
+  try {
+    const data = Post.create({ title, body });
+
+    if (!data) {
+      return res.status(400).json({
+        status: "Failed",
+        message: "Something went wrong",
+      });
+    }
+
+    return res.status(200).json({
+      status: "Success",
+      message: "Post created successfully",
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      status: "Failed",
+      message: "Something went wrong",
+    });
+  }
+};
+
