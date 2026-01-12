@@ -2,7 +2,8 @@ FROM node:23
 
 WORKDIR /app
 
-ARG NODE_ENV=production
+# Build-time env
+ARG NODE_ENV
 ENV NODE_ENV=${NODE_ENV}
 
 COPY package.json package-lock.json ./
@@ -10,7 +11,7 @@ COPY package.json package-lock.json ./
 RUN if [ "$NODE_ENV" = "development" ]; then \
       npm install; \
     else \
-      npm install --only=production; \
+      npm install --omit=dev; \
     fi
 
 COPY . .
