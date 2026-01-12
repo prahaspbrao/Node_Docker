@@ -1,11 +1,20 @@
 import express from "express";
 import mongoose from "mongoose";
-import {MONGO_USER , MONGO_IP , MNGO_PORT} from "./config/config.js"
+import config from "./config/config.js";
+
+const {
+  MONGO_USER,
+  MONGO_IP,
+  MONGO_PORT,
+  MONGO_PASSWORD,
+} = config;
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-await mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MNGO_PORT}/?authSource=admin`)
+const mongoURL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`
+
+await mongoose.connect(mongoURL )
 .then(() => console.log("Successfully connected to database"))
 .catch((e) => console.log(e))
 
