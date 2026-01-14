@@ -6,8 +6,8 @@ const router = express.Router();
 router.get("/" , getAllPosts);
 router.post("/post" , createPost);
 router.get("/:id" , getOnePosts);
-router.patch("/update" , updatePost);
-router.delete("/delete" , deletePost);
+router.patch("/update/:id" , updatePost);
+router.delete("/delete/:id" , deletePost);
 
 export  default router;
 
