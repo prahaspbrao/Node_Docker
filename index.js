@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import config from "./config/config.js";
 import postRouter from "./routes/postRoutes.js";
+import userRouter from "./routes/userRoutes.js"
 
 const { MONGO_USER, MONGO_IP, MONGO_PORT, MONGO_PASSWORD } = config;
 
@@ -24,6 +25,7 @@ async function startServer() {
     });
 
     app.use("/api/v1", postRouter);
+    app.use("/api/v1" , userRouter);
 
     app.listen(port, () => {
       console.log(`🚀 Listening to the port : ${port}`);
