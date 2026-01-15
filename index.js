@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import session from "express-session";
 import {RedisStore} from "connect-redis";
 import { createClient } from "redis";
+import cors from "cors"
 
 import config from "./config/config.js";
 import postRouter from "./routes/postRoutes.js";
@@ -66,6 +67,7 @@ async function startServer() {
     });
 
     app.enable("trust proxy");
+    app.use(cors({}))
 
     // Session middleware (BEFORE ROUTES)
     app.use(
