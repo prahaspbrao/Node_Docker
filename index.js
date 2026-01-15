@@ -65,6 +65,8 @@ async function startServer() {
       prefix: "sess:",
     });
 
+    app.enable("trust proxy");
+
     // Session middleware (BEFORE ROUTES)
     app.use(
       session({
@@ -82,7 +84,7 @@ async function startServer() {
     );
 
     // Routes
-    app.get("/", (req, res) => {
+    app.get("/api/v1", (req, res) => {
       res.send("<h2>Hello World !!!</h2>");
     });
 
