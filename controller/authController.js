@@ -39,55 +39,35 @@ export const signUp = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const username = req.body?.username;
-    const password = req.body?.password;
-
-    console.log("LOGIN BODY:", req.body);
-
-
-    if (!username || !password) {
-      return res.status(400).json({
-        status: "Fail",
-        message: "Username and password are required",
-      });
-    }
+    const { username, password } = req.body;
 
     const user = await User.findOne({ username });
-
     if (!user) {
-      return res.status(400).json({
-        status: "Fail",
-        message: "User does not exist",
-      });
+      return res.status(400).json({ message: "User does not exist" });
     }
 
     const isCorrect = await bcrypt.compare(password, user.password);
-
     if (!isCorrect) {
-      return res.status(400).json({
-        status: "Fail",
-        message: "Incorrect password",
-      });
+      return res.status(400).json({ message: "Incorrect password" });
     }
 
+    // 🔥 THIS CREATES THE SESSION + COOKIE
+    req.session.userId = user._id;
+    req.session.username = user.username;
+
     return res.status(200).json({
-      status: "Success",
-      message: "Successfully logged in",
-      data: {
-        user: {
-          _id: user._id,
-          username: user.username,
-        },
+      message: "Login successful",
+      user: {
+        _id: user._id,
+        username: user.username,
       },
     });
 
-  } catch (error) {
-    console.error("LOGIN ERROR:", error);
-    return res.status(500).json({
-      status: "Fail",
-      message: "Internal server error",
-    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Login failed" });
   }
 };
+
 
 
