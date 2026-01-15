@@ -1,13 +1,9 @@
 services:
-  nginx :
-    image : nginx:stable-alpine
-    ports :
+  nginx:
+    ports:
       - "80:80"
+
   node-app:
-    build:
-      context: .
-      args:
-        NODE_ENV: production
     environment:
       NODE_ENV: production
-    command: node index.js
+    command: node src/server.js
