@@ -76,7 +76,7 @@ async function startServer() {
         cookie: {
           httpOnly: true,
           secure: false, // true only with HTTPS
-          maxAge:1000 * 60 * 60 * 24
+          maxAge:30 * 1000
         },
       })
     );

@@ -52,8 +52,7 @@ export const login = async (req, res) => {
     }
 
     // 🔥 THIS CREATES THE SESSION + COOKIE
-    req.session.userId = user._id;
-    req.session.username = user.username;
+    req.session.user = user;
 
     return res.status(200).json({
       message: "Login successful",
