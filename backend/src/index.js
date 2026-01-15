@@ -1,9 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
 import session from "express-session";
-import {RedisStore} from "connect-redis";
+import { RedisStore } from "connect-redis";
 import { createClient } from "redis";
-import cors from "cors"
+import cors from "cors";
 
 import config from "./config/config.js";
 import postRouter from "./routes/postRoutes.js";
@@ -16,7 +16,7 @@ const {
   MONGO_PASSWORD,
   REDIS_URL,
   REDIS_PORT,
-  SESSION_SECRET
+  SESSION_SECRET,
 } = config;
 
 const app = express();
@@ -67,7 +67,7 @@ async function startServer() {
     });
 
     app.enable("trust proxy");
-    app.use(cors({}))
+    app.use(cors({}));
 
     // Session middleware (BEFORE ROUTES)
     app.use(
@@ -80,15 +80,12 @@ async function startServer() {
         cookie: {
           httpOnly: true,
           secure: false, // true only with HTTPS
-          maxAge:30 * 1000
+          maxAge: 30 * 1000,
         },
       })
     );
 
-    // Routes
-    app.get("/api/v1", (req, res) => {
-      res.send("<h2>Hello World !!!</h2>");
-    });
+ 
 
     app.use("/api/v1", userRouter);
     app.use("/api/v1", postRouter);
@@ -106,7 +103,6 @@ async function startServer() {
     app.listen(port, () => {
       console.log(`🚀 Server running on port ${port}`);
     });
-
   } catch (err) {
     console.error("❌ Startup failed:", err);
     process.exit(1);
