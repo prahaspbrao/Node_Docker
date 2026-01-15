@@ -67,7 +67,12 @@ async function startServer() {
     });
 
     app.enable("trust proxy");
-    app.use(cors({}));
+    // app.use(
+    //   cors({
+    //     origin: "http://localhost:5173", // frontend URL
+    //     credentials: true, // allow cookies
+    //   })
+    // );
 
     // Session middleware (BEFORE ROUTES)
     app.use(
@@ -79,23 +84,27 @@ async function startServer() {
         saveUninitialized: false,
         cookie: {
           httpOnly: true,
-          secure: false, // true only with HTTPS
-          maxAge: 30 * 1000,
+          secure: false, // HTTP
+          sameSite: "lax", // ✅ works for same-origin
+          maxAge: 1000 * 60 * 60 * 24,
         },
       })
     );
 
- 
-
     app.use("/api/v1", userRouter);
     app.use("/api/v1", postRouter);
 
-    // Test session
-    app.get("/test-session", (req, res) => {
-      req.session.views = (req.session.views || 0) + 1;
-      res.json({
-        message: "Session working",
-        views: req.session.views,
+    app.get("/api/v1/me", (req, res) => {
+      if (!req.session.user) {
+        return res.status(401).json({ message: "Not logged in" });
+      }
+      res.json(req.session.user);
+    });
+
+    app.post("/api/v1/logout", (req, res) => {
+      req.session.destroy(() => {
+        res.clearCookie("sid"); // ✅ MUST MATCH session name
+        res.json({ message: "Logged out" });
       });
     });
 
