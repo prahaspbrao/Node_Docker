@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon -L index.js"
-  },
+  "dev": "nodemon -L src/index.js",
+  "start": "node src/index.js"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prahaspbrao/Node_Docker.git"
