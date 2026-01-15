@@ -10,8 +10,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const mongoURL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`;
+
+const mongoURL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/blogDB?authSource=admin`;
 
 mongoose.set("bufferCommands", false);
 
@@ -19,6 +21,7 @@ async function startServer() {
   try {
     await mongoose.connect(mongoURL);
     console.log("✅ Successfully connected to database");
+    console.log("📦 Connected DB:", mongoose.connection.name);
 
     app.get("/", (req, res) => {
       res.send("<h2>Hello World !!!</h2>");
